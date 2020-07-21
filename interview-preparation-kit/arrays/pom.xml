@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>warm-up-challenges</artifactId>
+    <artifactId>arrays</artifactId>
     <packaging>pom</packaging>
-
 
 </project>
