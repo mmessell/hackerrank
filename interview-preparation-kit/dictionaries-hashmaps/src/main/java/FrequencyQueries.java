@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -15,7 +12,7 @@ public class FrequencyQueries {
     static List<Integer> freqQuery(List<List<Integer>> queries) {
         List<Integer> output = new ArrayList<>();
         Map<Integer, Integer> frequency = new HashMap<>();
-        Map<Integer, List<Integer>> reverseFrequency = new HashMap<>();
+        Map<Integer, Set<Integer>> reverseFrequency = new HashMap<>();
 
         for (List<Integer> query : queries) {
             int operation = query.get(0);
@@ -33,7 +30,7 @@ public class FrequencyQueries {
         return output;
     }
 
-    private static void handleOperation1(Map<Integer, Integer> frequency, Map<Integer, List<Integer>> reverseFrequency, int key) {
+    private static void handleOperation1(Map<Integer, Integer> frequency, Map<Integer, Set<Integer>> reverseFrequency, int key) {
         boolean containsKey = frequency.containsKey(key);
         Integer currentValue = containsKey ? frequency.get(key) : 0;
         Integer newValue = containsKey ? currentValue + 1 : 1;
@@ -42,7 +39,7 @@ public class FrequencyQueries {
         addReversely(reverseFrequency, key, currentValue, newValue);
     }
 
-    private static void handleOperation2(Map<Integer, Integer> frequency, Map<Integer, List<Integer>> reverseFrequency, int key) {
+    private static void handleOperation2(Map<Integer, Integer> frequency, Map<Integer, Set<Integer>> reverseFrequency, int key) {
         if (frequency.containsKey(key)) {
             Integer currentValue = frequency.get(key);
             Integer newValue = currentValue - 1;
@@ -53,20 +50,20 @@ public class FrequencyQueries {
         }
     }
 
-    private static void handleOperation3(List<Integer> output, Map<Integer, List<Integer>> reverseFrequency, int value) {
-        List<Integer> keys = reverseFrequency.get(value);
+    private static void handleOperation3(List<Integer> output, Map<Integer, Set<Integer>> reverseFrequency, int value) {
+        Set<Integer> keys = reverseFrequency.get(value);
         output.add(keys != null && !keys.isEmpty() ? 1 : 0);
     }
 
-    private static void addReversely(Map<Integer, List<Integer>> reverseData, int key, int currentValue, int newValue) {
+    private static void addReversely(Map<Integer, Set<Integer>> reverseData, int key, int currentValue, int newValue) {
         if (reverseData.containsKey(currentValue)) {
-            reverseData.get(currentValue).removeIf(v -> v == key);
+            reverseData.get(currentValue).remove(key);
         }
 
         if (reverseData.containsKey(newValue)) {
             reverseData.get(newValue).add(key);
         } else {
-            reverseData.put(newValue, new ArrayList<Integer>() {{
+            reverseData.put(newValue, new HashSet<Integer>() {{
                 add(key);
             }});
         }
