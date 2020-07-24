@@ -12,6 +12,7 @@
         <module>warm-up-challenges</module>
         <module>arrays</module>
         <module>dictionaries-hashmaps</module>
+        <module>sorting</module>
     </modules>
 
     <properties>
