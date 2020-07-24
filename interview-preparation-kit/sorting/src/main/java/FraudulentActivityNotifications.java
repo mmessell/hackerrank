@@ -23,7 +23,7 @@ public class FraudulentActivityNotifications {
                 if (even) {
                     median2 = calc2MedianEven(getHistoryIndex(historyCount), i1, i2);
                 } else {
-                    median2 = calc2MedianOdd(getHistoryIndex(historyCount), i2);
+                    median2 = calc2MedianOdd(getHistoryIndex(historyCount), 0, i2, 2);
                 }
 
 
@@ -49,22 +49,17 @@ public class FraudulentActivityNotifications {
             }
         }
 
-        for (; i < historyIndex.length; i++) {
-            if (i2 <= historyIndex[i]) {
-                median2 += i;
-                break;
-            }
-        }
+        median2 += calc2MedianOdd(historyIndex, i, i2, 1);
 
         return median2;
     }
 
-    private static int calc2MedianOdd(int[] historyIndex, int i2) {
+    private static int calc2MedianOdd(int[] historyIndex, int i, int i2, int multiplier) {
         int median2 = 0;
 
-        for (int i = 0; i < historyIndex.length; i++) {
+        for (; i < historyIndex.length; i++) {
             if (i2 <= historyIndex[i]) {
-                median2 = i * 2;
+                median2 = i * multiplier;
                 break;
             }
         }
